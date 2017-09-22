@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Auth0Lock from 'auth0-lock';
 
+import './styles.css';
 import Background from './assets/background.jpg';
+import Logo from './assets/logo.svg';
 
 const language = () => {
     let language = navigator.languages
@@ -19,12 +21,12 @@ const lock = new Auth0Lock(clientId, domain, {
     language: language(),
     mustAcceptTerms: true,
     theme: {
-        logo: '',
-        primaryColor: 'blue',
+        logo: Logo,
+        primaryColor: '#38843B',
     },
     languageDictionary: {
         signUpTerms: "Estoy de acuerdo con los <a href='/terms' target='_new'>términos del servicio</a> y la <a href='/privacy' target='_new'>política de privacidad</a>.",
-        title: "Depto center",
+        title: '',
     },
 });
 

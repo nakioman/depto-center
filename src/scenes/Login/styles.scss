@@ -1,0 +1,5 @@
+@import '../../theme/variables';
+
+.auth0-lock.auth0-lock .auth0-lock-header-bg {
+    background-color: $primary-color !important;
+}
