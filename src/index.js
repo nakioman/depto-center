@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import './theme/App.css';
 import Router from './scenes/Router';
 import registerServiceWorker from './registerServiceWorker';
 
