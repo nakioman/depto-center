@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import Auth0Lock from 'auth0-lock';
 
 import './styles.css';
-import Background from './assets/background.jpg';
-import Logo from './assets/logo.svg';
+import Background from '../../assets/background.jpg';
+import Logo from '../../assets/logo.svg';
 
+// Flow will be redirected to /login-callback.html after successful login
+const serverUrl = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+const redirectUrl = serverUrl + '/login-callback';
 const language = () => {
     let language = navigator.languages
         ? navigator.languages[0]
@@ -28,6 +31,12 @@ const lock = new Auth0Lock(clientId, domain, {
         signUpTerms: "Estoy de acuerdo con los <a href='/terms' target='_new'>términos del servicio</a> y la <a href='/privacy' target='_new'>política de privacidad</a>.",
         title: '',
     },
+    socialButtonStyle: 'big',
+    auth: {
+      redirectUrl,
+      responseType: 'token id_token',
+      scope: 'openid email'
+    }
 });
 
 class Login extends Component {
