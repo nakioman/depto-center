@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "auth0-lock": "^10.21.1",
     "bootstrap": "4.0.0-beta",
     "bootstrap-datepicker": "^1.7.1",
     "bootstrap-switch": "^3.3.4",
