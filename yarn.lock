@@ -4485,10 +4485,6 @@ nouislider@^10.1.0:
   version "10.1.0"
   resolved "https://registry.yarnpkg.com/nouislider/-/nouislider-10.1.0.tgz#7bdd0411fd62d4584bfe88cb92bb8d06e64c6b47"
 
-now-ui-kit@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/now-ui-kit/-/now-ui-kit-1.0.1.tgz#6fe9496d906d243404b61c036fd7b3b4eef16c15"
-
 npm-run-all@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/npm-run-all/-/npm-run-all-4.1.1.tgz#3095cf3f3cacf57fcb662b210ab10c609af6ddbb"
