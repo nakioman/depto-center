@@ -68,7 +68,7 @@ class Login extends Component {
 
         localStorage.setItem('auth0IdToken', authResult.idToken);
         that.props.data.refetch().then(response => {
-          if (response.data.user.id) {
+          if (response.data.user && response.data.user.id) {
             localStorage.setItem('graphQLUserId', response.data.user.id);
             that.props.history.replace('/');
           } else {
