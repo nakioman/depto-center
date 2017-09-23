@@ -1,0 +1,7 @@
+staging:
+  type: deploy
+  script:
+  - gem install dpl
+  - dpl --provider=heroku --app=depto-center-staging --api-key=$HEROKU_STAGING_API_KEY
+  only:
+  - master
