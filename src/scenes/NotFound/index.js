@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import './styles.css';
-import Background from '../../assets/background.jpg';
+import Background from './assets/background.jpg';
 
 const NotFound = () => (
   <div className="page-header filter-color">

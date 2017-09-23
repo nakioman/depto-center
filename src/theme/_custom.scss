@@ -1,5 +1,5 @@
-@import '../../theme/variables';
-@import 'now-ui-kit/assets/sass/now-ui-kit/mixins';
+@import './now-ui-kit/variables';
+@import './now-ui-kit/mixins';
 
 .filter-color {
     @include linear-gradient(rgba($black-color,.20), rgba($primary-color,.60));

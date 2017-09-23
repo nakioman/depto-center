@@ -9,7 +9,7 @@ require('bootstrap');
 require('bootstrap-switch');
 require('nouislider');
 require('bootstrap-datepicker');
-require('../node_modules/now-ui-kit/assets/js/now-ui-kit');
+require('./now-ui-kit');
 
 ReactDOM.render(<Router />, document.getElementById('root'));
 registerServiceWorker();
