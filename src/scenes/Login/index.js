@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import Auth0Lock from 'auth0-lock';
+import { graphql, gql } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 
 import './styles.css';
-import Background from '../../assets/background.jpg';
+import Background from './assets/background.jpg';
 import Logo from '../../assets/logo.svg';
+import Loading from './assets/loading.gif';
 
+// Flow will be redirected to /login-callback.html after successful login
+const serverUrl = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+const redirectUrl = serverUrl + '/login';
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
 const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 const lock = new Auth0Lock(clientId, domain, {
@@ -22,58 +28,87 @@ const lock = new Auth0Lock(clientId, domain, {
   socialButtonStyle: 'big',
   auth: {
     responseType: 'token id_token',
-    scope: 'openid email'
+    scope: 'openid email',
+    redirectUrl,
   },
 });
 
-class Login extends Component {
-  state = {
-    errorMessage: null
-  };
+const createUser = gql`
+mutation ($idToken: String!, $name: String!, $emailAddress: String!){
+  createUser(authProvider: {auth0: {idToken: $idToken}}, name: $name, emailAddress: $emailAddress) {
+    id
+  }
+}
+`;
 
-  componentWillMount() {
+class Login extends Component {
+  setupAuthLock = () => {
+    const that = this;
     lock.on('authenticated', authResult => {
       lock.getUserInfo(authResult.accessToken, function (error, profile) {
         if (error) {
-          // Handle error
-          this.setState({ errorMessage: error.error_description });
+          lock.show({
+            flashMessage: {
+              type: 'error',
+              text: error.error_description,
+            }
+          });
           return;
         }
 
-        console.log(profile);
-        console.log(authResult);
-
-        // localStorage.setItem("accessToken", authResult.accessToken);
-        // localStorage.setItem("profile", JSON.stringify(profile));
-
-        // Update DOM
+        const variables = {
+          idToken: authResult.idToken,
+          name: profile.name,
+          emailAddress: profile.email
+        };
+        that.props.createUser({ variables }).then(response => {
+          localStorage.setItem('auth0IdToken', authResult.idToken);
+          localStorage.setItem('graphQLUserId', response.data.createUser.id);
+          that.props.history.replace('/');
+        }).catch((error) => {
+          console.error(error);
+          lock.show({
+            flashMessage: {
+              type: 'error',
+              text: 'Hubo un error creando el usuario, intente de nuevo o contacte al administrador',
+            }
+          });
+        });
       });
     });
     lock.on('authorization_error', error => {
-      this.setState({ errorMessage: error.error_description });
+      lock.show({
+        flashMessage: {
+          type: 'error',
+          text: error.error_description,
+        }
+      });
+    });
+    lock.on('hash_parsed', hash => {
+      if (!hash) {
+        lock.show();
+      }
     });
   }
-  componentDidMount() {
-    lock.show();
+  componentWillMount() {
+    if (localStorage.getItem('auth0IdToken')) {
+      this.props.history.replace('/');
+    } else {
+      this.setupAuthLock();
+    }
   }
   render() {
     return (
       <div className="page-header filter-color">
         <div className="page-header-image" style={{ backgroundImage: `url(${Background})` }} />
-        <div className="alert alert-danger" role="alert"
-          style={{
-            visibility: this.state.errorMessage ? 'visible' : 'hidden',
-            position: 'absolute',
-            width: '100%'
-          }}>
-          <div className="container text-left">
-            {this.state.errorMessage}
-          </div>
-        </div>
         <div className="container" >
-          <div className="col-md-6 content-center">
-            <div className="card card-plain" >
-              <div className="content" id="auth0-lock" />
+          <div className="row justify-content-center content-center">
+            <div className="offset-md-5 col-md-5" id="auth0-lock">
+              <div className="card" >
+                <div className="content" >
+                  <img src={Loading} alt="Procesando ingreso..." />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -82,4 +117,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default graphql(createUser, { name: 'createUser' })(withRouter(Login));

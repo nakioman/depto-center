@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import './theme/App.css';
-import Router from './scenes/Router';
+import App from './scenes/App';
 import registerServiceWorker from './registerServiceWorker';
 
 require('bootstrap');
@@ -11,5 +11,5 @@ require('nouislider');
 require('bootstrap-datepicker');
 require('./now-ui-kit');
 
-ReactDOM.render(<Router />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
