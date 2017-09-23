@@ -1,29 +1,20 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Switch } from 'react-router-dom';
+
+import PublicLayout from './publicLayout';
+import PrivateLayout from './privateLayout';
 
 import Admin from '../Admin';
 import Login from '../Login';
 import NotFound from '../NotFound';
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={props => (
-    localStorage.getItem('auth0IdToken') ? (
-      <Component {...props} />
-    ) : (
-        <Redirect to={{
-          pathname: '/login',
-          state: { from: props.location }
-        }} />
-      )
-  )} />
-);
-
 const Router = () => (
   <BrowserRouter>
     <Switch>
-      <PrivateRoute exact path="/" component={Admin} />
-      <Route path="/login" component={Login} />
-      <Route component={NotFound} />
+      <PrivateLayout exact path="/" component={Admin} />
+
+      <PublicLayout path="/login" component={Login} />
+      <PublicLayout path="*" component={NotFound} />
     </Switch>
   </BrowserRouter>
 );

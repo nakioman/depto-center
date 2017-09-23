@@ -13,25 +13,6 @@ const serverUrl = window.location.protocol + '//' + window.location.hostname + '
 const redirectUrl = serverUrl + '/login';
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
 const domain = process.env.REACT_APP_AUTH0_DOMAIN;
-const lock = new Auth0Lock(clientId, domain, {
-  container: 'auth0-lock',
-  language: 'es',
-  mustAcceptTerms: true,
-  theme: {
-    logo: Logo,
-    primaryColor: '#38843B',
-  },
-  languageDictionary: {
-    signUpTerms: "Estoy de acuerdo con los <a href='/terms' target='_new'>términos del servicio</a> y la <a href='/privacy' target='_new'>política de privacidad</a>.",
-    title: '',
-  },
-  socialButtonStyle: 'big',
-  auth: {
-    responseType: 'token id_token',
-    scope: 'openid email',
-    redirectUrl,
-  },
-});
 
 const createUser = gql`
 mutation ($idToken: String!, $name: String!, $emailAddress: String!){
@@ -41,9 +22,37 @@ mutation ($idToken: String!, $name: String!, $emailAddress: String!){
 }
 `;
 
+const userQuery = gql`
+query {
+  user {
+    id
+  }
+}
+`;
+
 class Login extends Component {
   setupAuthLock = () => {
     const that = this;
+    const lock = new Auth0Lock(clientId, domain, {
+      container: 'auth0-lock',
+      language: 'es',
+      mustAcceptTerms: true,
+      theme: {
+        logo: Logo,
+        primaryColor: '#38843B',
+      },
+      languageDictionary: {
+        signUpTerms: "Estoy de acuerdo con los <a href='/terms' target='_new'>términos del servicio</a> y la <a href='/privacy' target='_new'>política de privacidad</a>.",
+        title: '',
+      },
+      socialButtonStyle: 'big',
+      auth: {
+        responseType: 'token id_token',
+        scope: 'openid email',
+        redirectUrl,
+      },
+    });
+
     lock.on('authenticated', authResult => {
       lock.getUserInfo(authResult.accessToken, function (error, profile) {
         if (error) {
@@ -56,24 +65,43 @@ class Login extends Component {
           return;
         }
 
-        const variables = {
-          idToken: authResult.idToken,
-          name: profile.name,
-          emailAddress: profile.email
-        };
-        that.props.createUser({ variables }).then(response => {
-          localStorage.setItem('auth0IdToken', authResult.idToken);
-          localStorage.setItem('graphQLUserId', response.data.createUser.id);
-          that.props.history.replace('/');
-        }).catch((error) => {
-          console.error(error);
+
+        localStorage.setItem('auth0IdToken', authResult.idToken);
+        that.props.data.refetch().then(response => {
+          if (response.data.user.id) {
+            localStorage.setItem('graphQLUserId', response.data.user.id);
+            that.props.history.replace('/');
+          } else {
+            const variables = {
+              idToken: authResult.idToken,
+              name: profile.name,
+              emailAddress: profile.email
+            };
+            that.props.createUser({ variables }).then(response => {
+              localStorage.setItem('graphQLUserId', response.data.createUser.id);
+              that.props.history.replace('/');
+            }).catch((error) => {
+              console.error(error);
+              localStorage.removeItem('auth0IdToken');
+              lock.show({
+                flashMessage: {
+                  type: 'error',
+                  text: 'Hubo un error creando el usuario, intente de nuevo o contacte al administrador',
+                }
+              });
+            });
+          }
+        }).catch(error => {
+          localStorage.removeItem('auth0IdToken');
+          console.log(error);
           lock.show({
             flashMessage: {
               type: 'error',
               text: 'Hubo un error creando el usuario, intente de nuevo o contacte al administrador',
             }
           });
-        });
+        })
+
       });
     });
     lock.on('authorization_error', error => {
@@ -99,7 +127,7 @@ class Login extends Component {
   }
   render() {
     return (
-      <div className="page-header filter-color">
+      <div className="page-header filter-color" style={{ height: `calc(100vh - ${this.props.footerHeight}px)` }}>
         <div className="page-header-image" style={{ backgroundImage: `url(${Background})` }} />
         <div className="container" >
           <div className="row justify-content-center content-center">
@@ -117,4 +145,6 @@ class Login extends Component {
   }
 }
 
-export default graphql(createUser, { name: 'createUser' })(withRouter(Login));
+export default graphql(createUser, { name: 'createUser' })(
+  graphql(userQuery, { options: { fetchPolicy: 'network-only' } })(withRouter(Login))
+);
