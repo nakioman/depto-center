@@ -130,9 +130,9 @@ class Login extends Component {
       <div className="page-header filter-color" style={{ height: `calc(100vh - ${this.props.footerHeight}px)` }}>
         <div className="page-header-image" style={{ backgroundImage: `url(${Background})` }} />
         <div className="container" >
-          <div className="row justify-content-center content-center">
-            <div className="offset-md-5 col-md-5" id="auth0-lock">
-              <div className="card" >
+          <div className="justify-content-center content-center">
+            <div className="offset-xs-4 col-xs-4" id="auth0-lock">
+              <div className="card card-plain" >
                 <div className="content" >
                   <img src={Loading} alt="Procesando ingreso..." />
                 </div>
