@@ -10,8 +10,8 @@ const NotFound = ({ footerHeight }) => (
       <div className="col-md-6 content-center">
         <div className="card card-plain" >
           <div className="content">
-            <h1 style={{ fontSize: '30vw' }}>Oops!</h1>
-            <h6>No podemos encontrar la página que estas buscando</h6>
+            <h1>Oops!</h1>
+            <p>No podemos encontrar la página que estas buscando</p>
           </div>
           <div className="footer">
             <Link to="/" className="btn btn-primary btn-round btn-lg">Ir al inicio</Link>
