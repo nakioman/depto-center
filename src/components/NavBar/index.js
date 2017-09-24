@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Auth0Lock from 'auth0-lock';
 
 import Logo from '../../assets/logo.svg';
+import NavBarBackground from './assets/background.jpg';
 
 const logout = (history) => {
   const serverUrl = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
@@ -18,7 +19,7 @@ const logout = (history) => {
 
 const NavBar = () => (
   <nav className="navbar navbar-expand-lg bg-primary fixed-top " data-color-on-scroll="400">
-    <div className="container">
+    <div className="container-fluid">
       <div className="navbar-translate">
         <Link to="/" >
           <img src={Logo} alt="Depto center" height="40" />
@@ -30,18 +31,10 @@ const NavBar = () => (
           <span className="navbar-toggler-bar bar3"></span>
         </button>
       </div>
-      <div className="collapse navbar-collapse justify-content-end" id="navigation" data-nav-image="../assets/img/blurred-image-1.jpg">
+      <div className="collapse navbar-collapse justify-content-end" id="navigation" data-nav-image={NavBarBackground}>
         <ul className="navbar-nav">
           <li className="nav-item">
-            <div className="dropdown">
-              <a href="profile" className="dropdown-toggle nav-link" id="profileDropdown" data-toggle="dropdown">
-                <i className="fa fa-user"></i>
-                <p className="d-lg-none d-xl-none">Perfil</p>
-              </a>
-              <div className="dropdown-menu" aria-labelledby="profileDropdown">
-                <a className="dropdown-item" href="#logout" onClick={logout}>Cerrar sesión</a>
-              </div>
-            </div>
+            <a className="nav-link" href="#logout" onClick={logout}>Cerrar sesión</a>
           </li>
         </ul>
       </div>
