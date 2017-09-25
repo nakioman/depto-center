@@ -34,8 +34,8 @@ class Login extends Component {
   setupAuthLock = () => {
     const that = this;
     const lock = new Auth0Lock(clientId, domain, {
-      container: 'auth0-lock',
       language: 'es',
+      closable: false,
       mustAcceptTerms: true,
       theme: {
         logo: Logo,
@@ -130,9 +130,9 @@ class Login extends Component {
       <div className="page-header filter-color" style={{ height: `calc(100vh - ${this.props.footerHeight}px)` }}>
         <div className="page-header-image" style={{ backgroundImage: `url(${Background})` }} />
         <div className="container" >
-          <div className="justify-content-center content-center">
-            <div className="offset-xs-4 col-xs-4" id="auth0-lock">
-              <div className="card card-plain" >
+          <div className="row justify-content-sm-center content-center" style={{ margin: 0 }}>
+            <div className="col-sm-4">
+              <div className="card" >
                 <div className="content" >
                   <img src={Loading} alt="Procesando ingreso..." />
                 </div>
