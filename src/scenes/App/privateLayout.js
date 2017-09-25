@@ -2,34 +2,33 @@ import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 import { asyncComponent } from '../../services/helpers';
+import './styles.css';
+import NavLink from '../../components/NavLink';
 
-const NavBar = asyncComponent(() => import('../../components/NavBar').then(module => module.default));
+const NavBar = asyncComponent(() => import('./components/NavBar').then(module => module.default));
+const SideBar = asyncComponent(() => import('./components/SideBar').then(module => module.default));
 const Footer = asyncComponent(() => import('../../components/Footer').then(module => module.default));
-
-require('bootstrap');
 
 class PrivateLayout extends Component {
   state = {
-    footerHeight: 100,
+    openNavBar: false,
   };
-  componentWillUpdate() {
-    window.$('.tooltip').remove();
+  toggleNavBar = (event) => {
+    this.setState({ openNavBar: !this.state.openNavBar })
   }
-  componentDidUpdate() {
-    window.$('[data-toggle="tooltip"], [rel="tooltip"]').tooltip();
-  }
-  componentDidMount() {
-    window.$('[data-toggle="tooltip"], [rel="tooltip"]').tooltip();
-  }
+
   render() {
     const { component: Component, ...rest } = this.props;
     if (localStorage.getItem('auth0IdToken')) {
       return (
         <Route {...rest} render={matchProps => (
-          <div>
-            <NavBar />
-            <div className="wrapper">
-              <Component {...matchProps } />
+          <div className={this.state.openNavBar ? 'wrapper nav-open' : 'wrapper'} onClick={() => this.state.openNavBar && this.toggleNavBar()}  >
+            <SideBar />
+            <div className="main-panel" ref={input => this.mainPanel = input}>
+              <NavBar toggleNavBar={this.toggleNavBar} openNavBar={this.state.openNavBar} />
+              <div className="content">
+                <Component {...matchProps } />
+              </div>
               <Footer />
             </div>
           </div>
