@@ -39,7 +39,7 @@
       "git add --"
     ],
     "*.{jpg,jpeg,JPG,JPEG}": [
-      "jpegoptim --strip-all -m85 --",
+      "jpegoptim --strip-all -m85 --all-progressive --",
       "git add --"
     ],
     "*.{gif, GIF}": [
