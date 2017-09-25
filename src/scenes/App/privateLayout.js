@@ -1,24 +1,25 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-import NavBar from '../../components/NavBar';
-import Footer from '../../components/Footer';
+import { asyncComponent } from '../../services/helpers';
+
+const NavBar = asyncComponent(() => import('../../components/NavBar').then(module => module.default));
+const Footer = asyncComponent(() => import('../../components/Footer').then(module => module.default));
+
+require('bootstrap');
 
 class PrivateLayout extends Component {
   state = {
     footerHeight: 100,
   };
   componentWillUpdate() {
-    window.$('.tooltip').remove();    
+    window.$('.tooltip').remove();
   }
   componentDidUpdate() {
     window.$('[data-toggle="tooltip"], [rel="tooltip"]').tooltip();
   }
   componentDidMount() {
     window.$('[data-toggle="tooltip"], [rel="tooltip"]').tooltip();
-    if (this.footer) {
-      this.setState({ footerHeight: this.footer.height() });
-    }
   }
   render() {
     const { component: Component, ...rest } = this.props;
@@ -28,8 +29,8 @@ class PrivateLayout extends Component {
           <div>
             <NavBar />
             <div className="wrapper">
-              <Component {...matchProps } footerHeight={this.state.footerHeight} />
-              <Footer ref={input => this.footer = input} />
+              <Component {...matchProps } />
+              <Footer />
             </div>
           </div>
         )} />

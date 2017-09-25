@@ -12,9 +12,8 @@ const logout = (history) => {
   const domain = process.env.REACT_APP_AUTH0_DOMAIN;
   const lock = new Auth0Lock(clientId, domain);
 
-  localStorage.removeItem('auth0IdToken');
-  localStorage.removeItem('graphQLUserId');
   lock.logout({ returnTo: redirectUrl });
+  localStorage.clear();
 }
 
 const NavBar = () => (

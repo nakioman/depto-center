@@ -1,12 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Switch } from 'react-router-dom';
 
+import { asyncComponent } from '../../services/helpers';
 import PublicLayout from './publicLayout';
 import PrivateLayout from './privateLayout';
 
-import Admin from '../Admin';
-import Login from '../Login';
-import NotFound from '../NotFound';
+const Admin = asyncComponent(() => import('../Admin').then(module => module.default));
+const Login = asyncComponent(() => import('../Login').then(module => module.default));
+const NotFound = asyncComponent(() => import('../NotFound').then(module => module.default));
 
 const Router = () => (
   <BrowserRouter>

@@ -54,6 +54,7 @@ class Login extends Component {
     });
 
     lock.on('authenticated', authResult => {
+      this.card.style.visibility = 'visible';
       lock.getUserInfo(authResult.accessToken, function (error, profile) {
         if (error) {
           lock.show({
@@ -79,6 +80,7 @@ class Login extends Component {
             };
             that.props.createUser({ variables }).then(response => {
               localStorage.setItem('graphQLUserId', response.data.createUser.id);
+              debugger;
               that.props.history.replace('/');
             }).catch((error) => {
               console.error(error);
@@ -127,12 +129,12 @@ class Login extends Component {
   }
   render() {
     return (
-      <div className="page-header filter-color" style={{ height: `calc(100vh - ${this.props.footerHeight}px)` }}>
+      <div className="page-header filter-color" >
         <div className="page-header-image" style={{ backgroundImage: `url(${Background})` }} />
         <div className="container" >
           <div className="row justify-content-sm-center content-center" style={{ margin: 0 }}>
             <div className="col-sm-4">
-              <div className="card" >
+              <div className="card" ref={input => this.card = input} style={{ visibility: 'hidden' }} >
                 <div className="content" >
                   <img src={Loading} alt="Procesando ingreso..." />
                 </div>
@@ -146,5 +148,5 @@ class Login extends Component {
 }
 
 export default graphql(createUser, { name: 'createUser' })(
-  graphql(userQuery, { options: { fetchPolicy: 'network-only' } })(withRouter(Login))
+  graphql(userQuery)(withRouter(Login))
 );
