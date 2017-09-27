@@ -19,7 +19,7 @@ export const asyncComponent = (getComponent) => {
       const { Component } = this.state
       const { component, ...props } = this.props;
       if (Component) {
-        return <Component {...props} ref={input => { if (component) { component(input); } }} />
+        return <Component {...props} />
       }
       return null
     }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Auth0Lock from 'auth0-lock';
 
 const logout = (history) => {
@@ -13,8 +12,6 @@ const logout = (history) => {
   localStorage.clear();
 }
 
-const $ = window.$;
-
 class NavBar extends Component {
 
   render() {
@@ -22,7 +19,7 @@ class NavBar extends Component {
       <header className="navbar bg-primary row">
         <div className="container-fluid">
           <div className="navbar-translate">
-            <a className="navbar-brand" href="#">Navbar</a>
+            <a className="navbar-brand" href="/">Navbar</a>
             <button className={this.props.openNavBar ? 'navbar-toggler toggled' : 'navbar-toggler'} type="button" onClick={this.props.toggleNavBar} >
               <span className="navbar-toggler-bar bar1"></span>
               <span className="navbar-toggler-bar bar2"></span>
@@ -32,7 +29,7 @@ class NavBar extends Component {
           <div className="justify-content-end d-none d-lg-block" >
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link" href="#logout" >Cerrar sesión</a>
+                <a className="nav-link" href="#logout" onClick={logout} >Cerrar sesión</a>
               </li>
             </ul>
           </div>

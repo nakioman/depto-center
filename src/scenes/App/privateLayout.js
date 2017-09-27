@@ -3,7 +3,6 @@ import { Route, Redirect } from 'react-router-dom';
 
 import { asyncComponent } from '../../services/helpers';
 import './styles.css';
-import NavLink from '../../components/NavLink';
 
 const NavBar = asyncComponent(() => import('./components/NavBar').then(module => module.default));
 const SideBar = asyncComponent(() => import('./components/SideBar').then(module => module.default));
