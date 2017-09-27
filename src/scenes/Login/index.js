@@ -148,5 +148,5 @@ class Login extends Component {
 }
 
 export default graphql(createUser, { name: 'createUser' })(
-  graphql(userQuery)(withRouter(Login))
+  graphql(userQuery, { options: { fetchPolicy: 'network-only' } })(withRouter(Login))
 );

@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import Auth0Lock from 'auth0-lock';
 import { Link } from 'react-router-dom';
+import { withApollo } from 'react-apollo';
 
-const logout = (history) => {
+const logout = (client) => {
   const serverUrl = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
   const redirectUrl = serverUrl + '/';
   const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
   const domain = process.env.REACT_APP_AUTH0_DOMAIN;
   const lock = new Auth0Lock(clientId, domain);
 
+  client.resetStore();
   lock.logout({ returnTo: redirectUrl });
   localStorage.clear();
 }
@@ -30,14 +32,14 @@ class NavBar extends Component {
           <div className="justify-content-end d-none d-lg-block" >
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link" href="" onClick={logout} >Cerrar sesión</a>
+                <a className="nav-link" href="" onClick={() => logout(this.props.client)} >Cerrar sesión</a>
               </li>
             </ul>
-          </div>
         </div>
-      </header>
+        </div>
+      </header >
     );
   }
 }
 
-export default NavBar;
+export default withApollo(NavBar);

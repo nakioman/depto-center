@@ -1,23 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Auth0Lock from 'auth0-lock';
+import { withApollo } from 'react-apollo';
 
 import NavLink from '../../../../components/NavLink';
 import NavBarBackground from './assets/background.jpg';
 import Logo from '../../../../assets/logo.svg';
 
-const logout = (history) => {
+const logout = (client) => {
   const serverUrl = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
   const redirectUrl = serverUrl + '/';
   const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
   const domain = process.env.REACT_APP_AUTH0_DOMAIN;
   const lock = new Auth0Lock(clientId, domain);
 
+  client.resetStore();
   lock.logout({ returnTo: redirectUrl });
   localStorage.clear();
 }
 
-const SideBar = () => (
+const SideBar = ({ client }) => (
   <nav className="navbar sidebar bg-dark" >
     <div className="background-image" style={{ backgroundImage: `url(${NavBarBackground})` }} />
     <div className="navbar-brand">
@@ -29,7 +31,7 @@ const SideBar = () => (
     <ul className="navbar-nav">
       <div className="d-lg-none">
         <li className="nav-item">
-          <a className="nav-link" href="" onClick={logout} >Cerrar sesión</a>
+          <a className="nav-link" href="" onClick={() => logout(client)} >Cerrar sesión</a>
         </li>
         <li className="dropdown-divider" role="separator" />
       </div>
@@ -38,4 +40,4 @@ const SideBar = () => (
   </nav>
 );
 
-export default SideBar;
+export default withApollo(SideBar);
