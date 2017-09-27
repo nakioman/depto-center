@@ -3,18 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "auth0-lock": "^10.21.1",
+    "auth0-lock": "^10.22.0",
     "bootstrap": "4.0.0-beta",
     "bootstrap-datepicker": "^1.7.1",
     "bootstrap-switch": "^3.3.4",
     "node-sass-chokidar": "^0.0.3",
     "nouislider": "^10.1.0",
     "npm-run-all": "^4.1.1",
-    "react": "^15.6.1",
-    "react-apollo": "^1.4.15",
-    "react-dom": "^15.6.1",
+    "react": "^16.0.0",
+    "react-apollo": "^1.4.16",
+    "react-dom": "^16.0.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.13"
+    "react-scripts": "1.0.14"
   },
   "scripts": {
     "test": "react-scripts test --env=jsdom",
@@ -30,7 +30,7 @@
     "gifsicle": "^3.0.4",
     "husky": "^0.14.3",
     "jpegoptim-bin": "^3.0.0",
-    "lint-staged": "^4.2.2",
+    "lint-staged": "^4.2.3",
     "pngquant": "^1.3.0"
   },
   "lint-staged": {
