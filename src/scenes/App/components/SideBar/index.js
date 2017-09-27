@@ -29,7 +29,7 @@ const SideBar = () => (
     <ul className="navbar-nav">
       <div className="d-lg-none">
         <li className="nav-item">
-          <a className="nav-link" href="#logout" onClick={logout} >Cerrar sesión</a>
+          <a className="nav-link" href="" onClick={logout} >Cerrar sesión</a>
         </li>
         <li className="dropdown-divider" role="separator" />
       </div>

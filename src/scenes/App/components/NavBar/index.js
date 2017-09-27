@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Auth0Lock from 'auth0-lock';
+import { Link } from 'react-router-dom';
 
 const logout = (history) => {
   const serverUrl = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
@@ -19,7 +20,7 @@ class NavBar extends Component {
       <header className="navbar bg-primary row">
         <div className="container-fluid">
           <div className="navbar-translate">
-            <a className="navbar-brand" href="/">Navbar</a>
+            <Link className="navbar-brand" to="/">Navbar</Link>
             <button className={this.props.openNavBar ? 'navbar-toggler toggled' : 'navbar-toggler'} type="button" onClick={this.props.toggleNavBar} >
               <span className="navbar-toggler-bar bar1"></span>
               <span className="navbar-toggler-bar bar2"></span>
@@ -29,7 +30,7 @@ class NavBar extends Component {
           <div className="justify-content-end d-none d-lg-block" >
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link" href="#logout" onClick={logout} >Cerrar sesión</a>
+                <a className="nav-link" href="" onClick={logout} >Cerrar sesión</a>
               </li>
             </ul>
           </div>
