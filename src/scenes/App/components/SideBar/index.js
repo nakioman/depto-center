@@ -37,13 +37,13 @@ const SideBar = ({ client }) => (
         <li className="dropdown-divider" role="separator" />
       </div>
       <NavLink to="/" ><i className="fa fa-home" />Inicio</NavLink>
+      <li className="dropdown-divider" role="separator" />
       <li className="nav-item disabled">
         <a className="nav-link disabled">
           <i className="fa fa-building" />Departamentos
      </a>
       </li>
-      <li className="dropdown-divider" role="separator" />
-      <NavLink to="/apartment" ><i className="fa fa-plus" />Agregar</NavLink>
+      <NavLink to="/apartment" className="subitem" ><i className="fa fa-plus" />Agregar</NavLink>
     </ul>
   </nav>
 );

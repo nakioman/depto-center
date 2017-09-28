@@ -1,6 +1,23 @@
 @import './now-ui-kit/variables';
 @import './now-ui-kit/mixins';
-
 .filter-color {
-    @include linear-gradient(rgba($black-color,.20), rgba($primary-color,.60));
+    @include linear-gradient(rgba($black-color, .20), rgba($primary-color, .60));
+}
+
+.navbar {
+    .navbar-nav {
+        .nav-item {
+            .nav-link.disabled:hover {
+                background-color: transparent;
+                cursor: default;
+                user-select: none;
+            }
+
+            &.subitem {
+                .nav-link {
+                    padding-left: 1.5rem;
+                }
+            }
+        }
+    }
 }
