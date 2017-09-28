@@ -4,9 +4,10 @@ import { graphql, gql } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 
 import './styles.css';
-import Background from './assets/background.jpg';
-import Logo from '../../assets/logo.svg';
-import Loading from './assets/loading.gif';
+
+const Loading = 'http://res.cloudinary.com/depto-center/image/upload/f_auto,fl_force_strip.progressive,q_auto,w_auto,c_scale/v1506634397/web-assets/loading.gif'
+const Logo = 'http://res.cloudinary.com/depto-center/image/upload/f_auto,fl_force_strip.progressive,q_auto,w_auto,c_scale/v1506634397/web-assets/logo.svg';
+const Background = 'http://res.cloudinary.com/depto-center/image/upload/f_auto,fl_force_strip.progressive,q_auto,w_auto,c_scale/v1506634397/web-assets/login_bg.jpg';
 
 // Flow will be redirected to /login-callback.html after successful login
 const serverUrl = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;

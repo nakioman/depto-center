@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Background from './assets/background.jpg';
+const Background = 'http://res.cloudinary.com/depto-center/image/upload/f_auto,fl_force_strip.progressive,q_auto,w_auto,c_scale/v1506634397/web-assets/notfound_bg.jpg'
 
 const NotFound = ({ footerHeight }) => (
   <div className="page-header filter-color" style={{ height: `calc(100vh - ${footerHeight}px)` }}>
