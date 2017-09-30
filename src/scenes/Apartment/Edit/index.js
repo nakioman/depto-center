@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import { updateApartment, allApartmentsQuery, apartmentQuery } from '../../../services/queries/Apartment';
+import { waitApolloClientRefetch } from '../../../services/helpers';
 
 import ApartmentForm from '../components/Form';
 import Error from '../components/Error';
@@ -22,7 +23,9 @@ class EditAparment extends Component {
       ],
       variables,
     }).then(response => {
-      this.props.history.replace(`/apartment/${this.props.match.params.id}`);
+      waitApolloClientRefetch(this.props.client).then(() => {
+        this.props.history.replace(`/apartment/${this.props.match.params.id}`);
+      });
     }).catch(error => {
       this.setState({ saving: false });
       console.error(error);
@@ -59,5 +62,5 @@ class EditAparment extends Component {
   }
 };
 
-export default graphql(updateApartment, { name: 'updateApartment' })(graphql(apartmentQuery,
-  { options: ({ match }) => ({ variables: { id: match.params.id } }) })(EditAparment));
+export default withApollo(graphql(updateApartment, { name: 'updateApartment' })(graphql(apartmentQuery,
+  { options: ({ match }) => ({ variables: { id: match.params.id } }) })(EditAparment)));

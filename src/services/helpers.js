@@ -25,3 +25,7 @@ export const asyncComponent = (getComponent) => {
     }
   }
 }
+
+export const waitApolloClientRefetch = async (apolloClient) => {
+  await Promise.all(Object.values(apolloClient.queryManager.observableQueries).map(({ observableQuery }) => observableQuery.refetch(observableQuery.variables)))
+}
