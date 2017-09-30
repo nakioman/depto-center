@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Auth0Lock from 'auth0-lock';
-import { Link } from 'react-router-dom';
 import { withApollo } from 'react-apollo';
 
 const logout = (client) => {
@@ -22,7 +21,7 @@ class NavBar extends Component {
       <header className="navbar bg-primary row">
         <div className="container-fluid">
           <div className="navbar-translate">
-            <Link className="navbar-brand" to="/">Navbar</Link>
+            <span className="navbar-brand" style={{ userSelect: 'none', cursor: 'default', color: 'white' }}>{this.props.title}</span>
             <button className={this.props.openNavBar ? 'navbar-toggler toggled' : 'navbar-toggler'} type="button" onClick={this.props.toggleNavBar} >
               <span className="navbar-toggler-bar bar1"></span>
               <span className="navbar-toggler-bar bar2"></span>
@@ -35,7 +34,7 @@ class NavBar extends Component {
                 <a className="nav-link" href="" onClick={() => logout(this.props.client)} >Cerrar sesión</a>
               </li>
             </ul>
-        </div>
+          </div>
         </div>
       </header >
     );

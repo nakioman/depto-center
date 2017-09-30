@@ -5,11 +5,25 @@ import { apartmentQuery, deleteApartment, allApartmentsQuery } from '../../../se
 import Detail from './components/Detail';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
+import SuccessNotification from '../../../components/notifications/Success';
+import queryString from 'query-string';
 
 class ApartmentDetail extends Component {
   state = {
     deleting: false,
+    showSuccess: false
   };
+  componentDidMount() {
+    this.props.setTitle('Departamento');
+    const parsed = queryString.parse(this.props.location.search);
+    if (parsed.added !== undefined) {
+      this.setState({ showSuccess: true });
+      this.props.history.replace(this.props.match.url);
+      setTimeout(() => {
+        this.setState({ showSuccess: false });
+      }, 3000);
+    }
+  }
   delete = () => {
     this.setState({ deleting: true });
     const variables = {
@@ -43,7 +57,14 @@ class ApartmentDetail extends Component {
   render() {
     const { data } = this.props;
     if (data.Apartment && !data.loading && !this.state.deleting) {
-      return <Detail apartment={data.Apartment} deleteAction={this.delete} editAction={this.edit} />
+      return (
+        <div>
+          {this.state.showSuccess &&
+            <SuccessNotification message="El departamento fue guardado satisfactoriamente." />
+          }
+          <Detail apartment={data.Apartment} deleteAction={this.delete} editAction={this.edit} />
+        </div>
+      );
     }
     if (!data.loading && !this.state.deleting) {
       return <Error />

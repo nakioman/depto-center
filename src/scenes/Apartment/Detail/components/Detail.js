@@ -8,7 +8,6 @@ const Detail = ({ apartment, deleteAction, editAction }) => (
   <div>
     <div className="card card-no-shadow" style={{ overflow: 'visible' }}>
       <div className="card-body">
-        <h6 className="card-title">Departamento</h6>
         <div className="row">
           <div className="col-md-12">
             <div className="form-group"  >
