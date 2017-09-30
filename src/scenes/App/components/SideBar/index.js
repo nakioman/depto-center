@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Auth0Lock from 'auth0-lock';
-import { withApollo } from 'react-apollo';
+import { withApollo, graphql } from 'react-apollo';
+import { allApartmentsQuery } from '../../../../services/queries/Apartment';
 
 import NavLink from '../../../../components/NavLink';
 
@@ -17,10 +18,10 @@ const logout = (client) => {
   localStorage.clear();
 }
 
-const Logo = 'http://res.cloudinary.com/depto-center/image/upload/f_auto,fl_force_strip.progressive,q_auto,w_auto,c_scale/v1506634397/web-assets/logo.svg';
-const NavBarBackground = 'http://res.cloudinary.com/depto-center/image/upload/f_auto,fl_force_strip.progressive,q_auto,w_auto,c_scale/v1506634397/web-assets/sidebar_bg.jpg';
+const Logo = '//res.cloudinary.com/depto-center/image/upload/f_auto,fl_force_strip.progressive,q_auto,w_auto,c_scale/v1506634397/web-assets/logo.svg';
+const NavBarBackground = '//res.cloudinary.com/depto-center/image/upload/f_auto,fl_force_strip.progressive,q_auto,w_auto,c_scale/v1506634397/web-assets/sidebar_bg.jpg';
 
-const SideBar = ({ client }) => (
+const SideBar = ({ client, data }) => (
   <nav className="navbar sidebar bg-dark" >
     <div className="background-image" style={{ backgroundImage: `url(${NavBarBackground})` }} />
     <div className="navbar-brand">
@@ -43,9 +44,19 @@ const SideBar = ({ client }) => (
           <i className="fa fa-building" />Departamentos
      </a>
       </li>
+      {data.loading &&
+        <li className="nav-item disabled">
+          <a className="nav-link disabled text-center">
+            <i className="fa fa-spinner fa-spin fa-fw" />
+          </a>
+        </li>
+      }
+      {data.allApartments && data.allApartments.map(item => (
+        <NavLink to={`/apartment/${item.id}`} key={item.id} className="subitem" >{item.address}</NavLink>
+      ))}
       <NavLink to="/apartment" className="subitem" ><i className="fa fa-plus" />Agregar</NavLink>
     </ul>
   </nav>
 );
 
-export default withApollo(SideBar);
+export default withApollo(graphql(allApartmentsQuery)(SideBar));

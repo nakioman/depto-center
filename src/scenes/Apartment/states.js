@@ -1,0 +1,28 @@
+const states = [
+  { id: 'PBA', name: 'Buenos Aires' },
+  { id: 'CAT', name: 'Catamarca' },
+  { id: 'CHA', name: 'Chaco' },
+  { id: 'CHU', name: 'Chubut' },
+  { id: 'BA', name: 'Ciudad Autónoma de Buenos Aires' },
+  { id: 'CBA', name: 'Córdoba' },
+  { id: 'COR', name: 'Corrientes' },
+  { id: 'ERI', name: 'Entre Ríos' },
+  { id: 'FOR', name: 'Formosa' },
+  { id: 'JU', name: 'Jujuy' },
+  { id: 'LP', name: 'La Pampa' },
+  { id: 'LR', name: 'La Rioja' },
+  { id: 'MZ', name: 'Mendoza' },
+  { id: 'MS', name: 'Misiones' },
+  { id: 'NQ', name: 'Neuquén' },
+  { id: 'RN', name: 'Río Negro' },
+  { id: 'ST', name: 'Salta' },
+  { id: 'SJ', name: 'San Juan' },
+  { id: 'SL', name: 'San Luis' },
+  { id: 'SC', name: 'Santa Cruz' },
+  { id: 'SF', name: 'Santa Fe' },
+  { id: 'SE', name: 'Santiago del Estero' },
+  { id: 'TF', name: 'Tierra del Fuego' },
+  { id: 'TU', name: 'Tucumán' },
+];
+
+export default states;

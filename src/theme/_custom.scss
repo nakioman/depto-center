@@ -21,3 +21,17 @@
         }
     }
 }
+
+.card-no-shadow {
+    box-shadow: none;
+}
+
+.modal {
+    top: 6rem;
+}
+
+@media screen and (min-width: 992px) {
+    .modal {
+        left: 250px;
+    }
+}

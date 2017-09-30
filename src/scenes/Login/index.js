@@ -1,35 +1,20 @@
 import React, { Component } from 'react';
 import Auth0Lock from 'auth0-lock';
-import { graphql, gql } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
+import { createUser, userQuery } from '../../services/queries/User';
 
 import './styles.css';
 
-const Loading = 'http://res.cloudinary.com/depto-center/image/upload/f_auto,fl_force_strip.progressive,q_auto,w_auto,c_scale/v1506634397/web-assets/loading.gif'
-const Logo = 'http://res.cloudinary.com/depto-center/image/upload/f_auto,fl_force_strip.progressive,q_auto,w_auto,c_scale/v1506634397/web-assets/logo.svg';
-const Background = 'http://res.cloudinary.com/depto-center/image/upload/f_auto,fl_force_strip.progressive,q_auto,w_auto,c_scale/v1506634397/web-assets/login_bg.jpg';
+const Loading = '//res.cloudinary.com/depto-center/image/upload/f_auto,fl_force_strip.progressive,q_auto,w_auto,c_scale/v1506634397/web-assets/loading.gif'
+const Logo = '//res.cloudinary.com/depto-center/image/upload/f_auto,fl_force_strip.progressive,q_auto,w_auto,c_scale/v1506634397/web-assets/logo.svg';
+const Background = '//res.cloudinary.com/depto-center/image/upload/f_auto,fl_force_strip.progressive,q_auto,w_auto,c_scale/v1506634397/web-assets/login_bg.jpg';
 
 // Flow will be redirected to /login-callback.html after successful login
 const serverUrl = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
 const redirectUrl = serverUrl + '/login';
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
 const domain = process.env.REACT_APP_AUTH0_DOMAIN;
-
-const createUser = gql`
-mutation ($idToken: String!, $name: String!, $emailAddress: String!){
-  createUser(authProvider: {auth0: {idToken: $idToken}}, name: $name, emailAddress: $emailAddress) {
-    id
-  }
-}
-`;
-
-const userQuery = gql`
-query {
-  user {
-    id
-  }
-}
-`;
 
 class Login extends Component {
   setupAuthLock = () => {
@@ -67,11 +52,9 @@ class Login extends Component {
           return;
         }
 
-
         localStorage.setItem('auth0IdToken', authResult.idToken);
         that.props.data.refetch().then(response => {
           if (response.data.user && response.data.user.id) {
-            localStorage.setItem('graphQLUserId', response.data.user.id);
             that.props.history.replace('/');
           } else {
             const variables = {
@@ -79,13 +62,11 @@ class Login extends Component {
               name: profile.name,
               emailAddress: profile.email
             };
-            that.props.createUser({ variables }).then(response => {
-              localStorage.setItem('graphQLUserId', response.data.createUser.id);
-              debugger;
+            that.props.createUser({ variables }).then(() => {
               that.props.history.replace('/');
             }).catch((error) => {
               console.error(error);
-              localStorage.removeItem('auth0IdToken');
+              localStorage.clear();
               lock.show({
                 flashMessage: {
                   type: 'error',
@@ -95,7 +76,7 @@ class Login extends Component {
             });
           }
         }).catch(error => {
-          localStorage.removeItem('auth0IdToken');
+          localStorage.clear();
           console.log(error);
           lock.show({
             flashMessage: {

@@ -12,7 +12,9 @@
     "npm-run-all": "^4.1.1",
     "react": "^16.0.0",
     "react-apollo": "^1.4.16",
+    "react-bootstrap-typeahead": "^2.0.0-alpha.3",
     "react-dom": "^16.0.0",
+    "react-notification-system": "^0.2.15",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14"
   },
@@ -24,7 +26,7 @@
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm run build-css && react-scripts build",
-    "precommit": "lint-staged"    
+    "precommit": "lint-staged"
   },
   "devDependencies": {
     "gifsicle": "^3.0.4",

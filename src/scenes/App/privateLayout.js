@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import NotificationSystem from 'react-notification-system';
 
 import { asyncComponent } from '../../services/helpers';
+import notificationStyles from './notificationStyles';
 import './styles.css';
 
 const NavBar = asyncComponent(() => import('./components/NavBar').then(module => module.default));
@@ -15,7 +17,9 @@ class PrivateLayout extends Component {
   toggleNavBar = (event) => {
     this.setState({ openNavBar: !this.state.openNavBar })
   }
-
+  componentDidMount() {
+    this.setState({ _notificationSystem: this.notificationSystem })
+  }
   render() {
     const { component: Component, ...rest } = this.props;
     if (localStorage.getItem('auth0IdToken')) {
@@ -26,7 +30,10 @@ class PrivateLayout extends Component {
             <div className="main-panel" ref={input => this.mainPanel = input}>
               <NavBar toggleNavBar={this.toggleNavBar} openNavBar={this.state.openNavBar} />
               <div className="content">
-                <Component {...matchProps } />
+                <div className="col-xs-11 col-sm-4 fadeInDown">
+                  <NotificationSystem ref={notificationSystem => this.notificationSystem = notificationSystem} style={notificationStyles} />
+                </div>
+                <Component {...matchProps } notificationSystem={this.state._notificationSystem} />
               </div>
               <Footer />
             </div>
