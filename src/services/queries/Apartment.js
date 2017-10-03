@@ -9,15 +9,18 @@ mutation($address: String!, $postalCode: String!, $state: String!, $userId: ID!)
 }
 `;
 
-export const allApartmentsQuery = gql `
+export const allApartmentsQuery = gql`
 query {
-  allApartments {
+  allApartments: user {
     id,
-    address
+    apartments {
+      id,
+      address
+    }
   }
 }
 `;
-export const apartmentQuery = gql `
+export const apartmentQuery = gql`
 query($id: ID!) {
   Apartment(id: $id) {
     address,

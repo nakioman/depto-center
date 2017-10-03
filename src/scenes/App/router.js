@@ -11,6 +11,7 @@ const NotFound = asyncComponent(() => import('../NotFound').then(module => modul
 const AddApartment = asyncComponent(() => import('../Apartment/Add').then(module => module.default));
 const ApartmentDetail = asyncComponent(() => import('../Apartment/Detail').then(module => module.default));
 const EditApartment = asyncComponent(() => import('../Apartment/Edit').then(module => module.default));
+const SilentCallback = asyncComponent(() => import('../SilentCallback').then(module => module.default));
 
 const Router = () => (
   <BrowserRouter>
@@ -21,6 +22,7 @@ const Router = () => (
       <PrivateLayout path="/apartment" component={AddApartment} />
 
       <PublicLayout path="/login" component={Login} />
+      <PublicLayout path="/silent-callback" component={SilentCallback} />      
       <PublicLayout path="*" component={NotFound} />
     </Switch>
   </BrowserRouter>

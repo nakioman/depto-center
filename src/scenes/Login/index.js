@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Auth0Lock from 'auth0-lock';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { createUser, userQuery } from '../../services/queries/User';
 
@@ -53,7 +53,7 @@ class Login extends Component {
         }
 
         localStorage.setItem('auth0IdToken', authResult.idToken);
-        that.props.data.refetch().then(response => {
+        that.props.client.query({ query: userQuery }).then(response => {
           if (response.data.user && response.data.user.id) {
             that.props.history.replace('/');
           } else {
@@ -129,6 +129,4 @@ class Login extends Component {
   }
 }
 
-export default graphql(createUser, { name: 'createUser' })(
-  graphql(userQuery, { options: { fetchPolicy: 'network-only' } })(withRouter(Login))
-);
+export default withApollo(graphql(createUser, { name: 'createUser' })(withRouter(Login)));

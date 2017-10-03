@@ -1,18 +1,7 @@
 import React, { Component } from 'react';
-import Auth0Lock from 'auth0-lock';
 import { withApollo } from 'react-apollo';
 
-const logout = (client) => {
-  const serverUrl = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
-  const redirectUrl = serverUrl + '/';
-  const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
-  const domain = process.env.REACT_APP_AUTH0_DOMAIN;
-  const lock = new Auth0Lock(clientId, domain);
-
-  client.resetStore();
-  lock.logout({ returnTo: redirectUrl });
-  localStorage.clear();
-}
+import { logout } from '../../../../services/helpers';
 
 class NavBar extends Component {
 
